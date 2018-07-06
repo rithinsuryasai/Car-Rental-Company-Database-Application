@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+   <title>CAR RENTAL APP</title>
+
+
+   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <style>
+        table, th, td {
+         border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="jumbotron">
+           <center><h1>CAR RENTAL APP</h1></center>
+            <p><b>HI !! These are your reservations.</b></p>
+
+      <form action="/deletereservation" method="post">
+            <table>
+                <input type="hidden" name="custid" value={{ customerid }}>
+            <tr>
+                <td><p> Vehicle ID</p></td>
+                <td><p>Start date</p></td>
+                <td><p>Return date </p></td>
+                <td><p>Amount due </p></td>
+            </tr>
+
+                 {% for obj in res %}
+                <tr>
+                <td><p>{{ obj.Vehicle_id }}</p></td>
+                <td><p>{{ obj.Start_date }}</p></td>
+                <td><p>{{ obj.Return_date }}</p></td>
+                <td><p>{{ obj.Amount_due }} </p></td>
+                <td><input type="checkbox" name="returncar" value={{ obj.Vehicle_id }} ></td>
+            </tr>
+                {% endfor %}
+            </table>
+          <input type="submit" value="Submit"/>
+      </form>
+
+</div>
+</body>
+
+</html>

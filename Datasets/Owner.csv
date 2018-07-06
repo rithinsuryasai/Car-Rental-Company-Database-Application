@@ -1,0 +1,7 @@
+Owner_Id,Owner_type,Cname,Bname,Fname,Lname
+11,Company,HPE,null,null,null
+12,Company,Ericson,null,null,null
+13,Bank,null,Axis ,null,null
+14,Bank,null,HDFC ,null,null
+15,Individual,null,null,Shree,Shilpa
+16,Individual,null,null,Surya,Ritin

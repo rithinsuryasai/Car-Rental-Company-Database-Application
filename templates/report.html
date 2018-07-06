@@ -1,0 +1,32 @@
+<head>
+    <title>CAR RENTAL APP</title>
+
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="jumbotron">
+            <center><h4>CAR RENTAL APP</h4></center>
+            <center><h1> Weekly Report </h1></center>
+            <table border="2">
+                <tr>
+                    <th>OWNER ID</th>
+                    <th>CAR TYPE</th>
+                    <th>EARNINGS</th>
+                </tr>
+                {% for obj in res %}
+                <tr>
+                    <td>{{ obj.Owner_id }}</td>
+                    <td>{{ obj.Car_type }}</td>
+                    <td>{{ obj.Earnings }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+    </div>
+</body>
+
+</html>

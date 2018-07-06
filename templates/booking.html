@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+   <title>CAR RENTAL APP</title>
+
+
+   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <style>
+        table, th, td {
+         border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="jumbotron">
+           <center><h1>CAR RENTAL APP</h1></center>
+            <p><b>HI !! These cars are available.</b></p>
+
+      <form action="/booking" method="post">
+            <table><tr>
+                <td><p><h4>Customer Id</h4></p></td>
+                <td><input type="text" name="custid" ></td>
+            </tr>
+
+                  <input type="hidden" name="sdate" value={{ start }}>
+                  <input type="hidden" name="rdate" value={{ end }}>
+                  <input type="hidden" name="car_type" value={{ car_type }}>
+
+            <tr>
+                <td><p> Vehicle ID</p></td>
+                <td><p>Model</p></td>
+                <td><p>Year </p></td>
+                <td><p>Weekly rate </p></td>
+                <td><p>Daily rate </p></td>
+            </tr>
+
+                 {% for obj in res %}
+                <tr>
+                <td><p>{{ obj.Vehicle_id }}</p></td>
+                <td><p>{{ obj.Model }}</p></td>
+                <td><p>{{ obj.Year }}</p></td>
+                <td><p>{{ obj.Weekly_rate }} </p></td>
+                    <td><p>{{ obj.Daily_rate }} </p></td>
+                     <input type="hidden" name="Weekly_rate" value={{ obj.Weekly_rate }}>
+                  <input type="hidden" name="Daily_rate" value={{ obj.Daily_rate }}>
+                <td><input type="radio" name="bookcar" value={{ obj.Vehicle_id }} ></td>
+            </tr>
+                {% endfor %}
+                <tr>
+                <td>
+			<select id="rateoption" name="rentalype">
+			<option value="1">Weekly rental</option>
+			<option value="2">Daily Rental</option>
+            </select>
+			</td>
+            </tr>
+            </table>
+          <input type="submit" value="Book"/>
+      </form>
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+Idno,Phone,Customer_type,Intial ,Lname,Cname
+1,123-456-7890,Individual,S,Shree,Null
+2,234-567-8901,Individual,R,Surya,Null
+3,345-678-9012,Individual,P,Priya,Null
+4,456-789-0123,Individual,U,Ramya,Null
+5,567-890-1234,Individual,A,Kavya,Null
+6,678-901-2345,Company,Null,Null,Google
+7,789-012-3456,Company,Null,Null,Wiseloan
+8,890-123-4567,Company,Null,Null,Redhat
+9,901-234-5678,Company,Null,Null,WWE
+10,101-101-1101,Company,Null,Null,EF Johnson

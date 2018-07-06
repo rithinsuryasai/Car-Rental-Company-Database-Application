@@ -1,0 +1,340 @@
+mysql> CREATE TABLE OWNER (
+    -> Owner_id INT NOT NULL,
+    -> Owner_type VARCHAR (20),
+    -> Cname VARCHAR (20),
+    -> Bname VARCHAR (20),
+    -> Fname VARCHAR (20),
+    -> Lname VARCHAR(20),
+    -> PRIMARY KEY(Owner_id))
+    -> ;
+ERROR 1046 (3D000): No database selected
+mysql> use carrental;
+Database changed
+mysql> CREATE TABLE OWNER (
+    -> Owner_id INT NOT NULL,
+    -> Owner_type VARCHAR (20),
+    -> Cname VARCHAR (20),
+    -> Bname VARCHAR (20),
+    -> Fname VARCHAR (20),
+    -> Lname VARCHAR(20),
+    -> PRIMARY KEY(Owner_id))
+    -> ;
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> CREATE TABLE CARTYPE (
+    -> Type_id INT,
+    -> Weekly_rate DECIMAL(5,2),
+    -> Daily_rate DECIMAL(5,2),
+    -> Car_type VARCHAR (20)
+    -> PRIMARY KEY(Type_id))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(Type_id))' at line 6
+mysql> CREATE TABLE CARTYPE (Type_id INT,Weekly_rate DECIMAL(5,2),Daily_rate DECIMAL(5,2),Car_type VARCHAR (20),PRIMARY KEY(Type_id));
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> CREATE TABLE CAR (
+    -> Vehicle_id NUMERIC (4) NOT NULL,
+    -> Model VARCHAR (10),
+    -> Year NUMERIC (4),
+    -> Type_id INT,
+    -> PRIMARY KEY(Vehicle_id),
+    -> FOREIGN KEY(Type_id) REFERENCES CARTYPE(Type_id))
+    -> ;
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> CREATE TABLE VEHICLE_OWNER(
+    -> Vehicle_id NUMERIC (4) NOT NULL,
+    -> Owner_id INT,
+    -> PRIMAY KEY(Vehicle_id, Owner_id),
+    -> FOREIGN KEY(Vehicle_id) REFERENCES CAR (Vehicle_id),
+    -> FOREIGN KEY(Owner_id) REFERENCES OWNER(Owner_id))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'KEY(Vehicle_id, Owner_id),
+FOREIGN KEY(Vehicle_id) REFERENCES CAR (Vehicle_id),
+' at line 4
+mysql> CREATE TABLE VEHICLE_OWNER(Vehicle_id NUMERIC (4) NOT NULL,Owner_id INT,PRIMARY KEY(Vehicle_id, Owner_id),FOREIGN KEY(Vehicle_id) REFERENCES CAR (Vehicle_id),FOREIGN KEY(Owner_id) REFERENCES OWNER(Owner_id));
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> CREATE TABLE AVAILABILITY(
+    -> Vehicle_id NUMERIC (4) NOT NULL,
+    -> Available_start DATE,
+    -> Available_end DATE,
+    -> PRIMARY KEY(Vehicle_id),
+    -> FOREIGN KEY(Vehicle_id) REFERENCES CAR (Vehicle_id))
+    -> ;
+Query OK, 0 rows affected (0.42 sec)
+
+mysql> CREATE TABLE CUSTOMER (
+    -> Idno INT,
+    -> Phone VARCHAR (12),
+    -> Customer_type VARCHAR (20),
+    -> Initial CHAR (1),
+    -> Lname VARCHAR (20),
+    -> Cname VARCHAR (20)
+    -> PRIMARY KEY(Idno))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(Idno))' at line 8
+mysql> CREATE TABLE CUSTOMER (Idno INT,Phone VARCHAR (12),Customer_type VARCHAR (20),Initial CHAR (1),Lname VARCHAR (20),Cname VARCHAR (20),PRIMARY KEY(Idno));
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> CREATE TABLE RENTS (
+    -> Customer_id INT,
+    -> Vehicle_id NUMERIC (4),
+    -> Start_date DATE,
+    -> Return_date DATE,
+    -> Amount_due DECIMAL,
+    -> Noofdays INT,
+    -> Noofweeks INT,
+    -> Dailyrent DECIMAL(5,2),
+    -> Weeklyrent DECIMAL(5,2),
+    -> Active BOOLEAN,
+    -> Scheduled BOOLEAN,
+    -> PRIMARY KEY (Customer_id, Vechicle_id),
+    -> FOREIGN KEY(Customer_id) REFERENCES CUSTOMER(Idno),
+    -> FOREIGN KEY(Vehicle_id) REFERENCES CAR(Vehicle_id))
+    -> ;
+ERROR 1072 (42000): Key column 'Vechicle_id' doesn't exist in table
+mysql> CREATE TABLE RENTS (Customer_id INT,Vehicle_id NUMERIC (4),Start_date DATE,Return_date DATE,Amount_due DECIMAL,Noofdays INT,Noofweeks INT,Dailyrent DECIMAL(5,2),Weeklyrent DECIMAL(5,2),Active BOOLEAN,Scheduled BOOLEAN,PRIMARY KEY (Customer_id, Vehicle_id),FOREIGN KEY(Customer_id) REFERENCES CUSTOMER(Idno),FOREIGN KEY(Vehicle_id) REFERENCES CAR(Vehicle_id));
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> desc owner;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Owner_id   | int(11)     | NO   | PRI | NULL    |       |
+| Owner_type | varchar(20) | YES  |     | NULL    |       |
+| Cname      | varchar(20) | YES  |     | NULL    |       |
+| Bname      | varchar(20) | YES  |     | NULL    |       |
+| Fname      | varchar(20) | YES  |     | NULL    |       |
+| Lname      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> desc car;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| Vehicle_id | decimal(4,0) | NO   | PRI | NULL    |       |
+| Model      | varchar(10)  | YES  |     | NULL    |       |
+| Year       | decimal(4,0) | YES  |     | NULL    |       |
+| Type_id    | int(11)      | YES  | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc vehicle_owner;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| Vehicle_id | decimal(4,0) | NO   | PRI | NULL    |       |
+| Owner_id   | int(11)      | NO   | PRI | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc availability;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| Vehicle_id      | decimal(4,0) | NO   | PRI | NULL    |       |
+| Available_start | date         | YES  |     | NULL    |       |
+| Available_end   | date         | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc cartype;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| Type_id     | int(11)      | NO   | PRI | NULL    |       |
+| Weekly_rate | decimal(5,2) | YES  |     | NULL    |       |
+| Daily_rate  | decimal(5,2) | YES  |     | NULL    |       |
+| Car_type    | varchar(20)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc customer;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Idno          | int(11)     | NO   | PRI | NULL    |       |
+| Phone         | varchar(12) | YES  |     | NULL    |       |
+| Customer_type | varchar(20) | YES  |     | NULL    |       |
+| Initial       | char(1)     | YES  |     | NULL    |       |
+| Lname         | varchar(20) | YES  |     | NULL    |       |
+| Cname         | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc rents;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| Customer_id | int(11)       | NO   | PRI | NULL    |       |
+| Vehicle_id  | decimal(4,0)  | NO   | PRI | NULL    |       |
+| Start_date  | date          | YES  |     | NULL    |       |
+| Return_date | date          | YES  |     | NULL    |       |
+| Amount_due  | decimal(10,0) | YES  |     | NULL    |       |
+| Noofdays    | int(11)       | YES  |     | NULL    |       |
+| Noofweeks   | int(11)       | YES  |     | NULL    |       |
+| Dailyrent   | decimal(5,2)  | YES  |     | NULL    |       |
+| Weeklyrent  | decimal(5,2)  | YES  |     | NULL    |       |
+| Active      | tinyint(1)    | YES  |     | NULL    |       |
+| Scheduled   | tinyint(1)    | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> select * from owner;
++------------+------------+---------+-----------+-------+--------+
+| Owner_id   | Owner_type | Cname   | Bname     | Fname | Lname  |
++------------+------------+---------+-----------+-------+--------+
+|         11 | Company    | HPE     | NULL      | NULL  | NULL   |
+|         12 | Company    | Ericson | NULL      | NULL  | NULL   |
+|         13 | Bank       | NULL    | Axis      | NULL  | NULL   |
+|         14 | Bank       | NULL    | HDFC      | NULL  | NULL   |
+|         15 | Individual | NULL    | NULL      | Shree | Shilpa |
+|         16 | Individual | NULL    | NULL      | Surya | Ritin  |
+| 1001540443 | Bank       | NULL    | Axis Bank | NULL  | NULL   |
++------------+------------+---------+-----------+-------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select * from car
+    -> ;
++------------+------------+------+---------+
+| Vehicle_id | Model      | Year | Type_id |
++------------+------------+------+---------+
+|       1001 | Ford       | 2018 |       1 |
+|       1002 | Ford       | 2018 |       1 |
+|       1003 | Ford       | 1991 |       5 |
+|       1004 | Chevy      | 1992 |       2 |
+|       1005 | Chevy      | 1889 |       3 |
+|       1007 | honda      | 1990 |       4 |
+|       1012 | Chevy      | 2008 |       1 |
+|       1013 | Ford       | 2009 |       5 |
+|       1014 | Toyota     | 2010 |       2 |
+|       1015 | BMW        | 2011 |       3 |
+|       1016 | Benz       | 2012 |       4 |
+|       1017 | Honda City | 1990 |       6 |
+|       1018 | Jaguar     | 1991 |       1 |
+|       1019 | Jaguar     | 1991 |       1 |
+|       1020 | Ferrari    | 1992 |       5 |
+|       1021 | Buggaati   | 1993 |       2 |
+|       1022 | Porsche    | 2014 |       3 |
+|       1023 | Volvo      | 2017 |       4 |
+|       1024 | Chevy      | 2008 |       1 |
+|       1025 | Ford       | 2009 |       5 |
+|       1026 | Toyota     | 2010 |       2 |
+|       1027 | BMW        | 2011 |       3 |
+|       1028 | Benz       | 2012 |       4 |
+|       1029 | Honda City | 1990 |       6 |
+|       1030 | Jaguar     | 1991 |       1 |
+|       1031 | Ferrari    | 1992 |       5 |
+|       1032 | Buggaati   | 1993 |       2 |
+|       1033 | Porche     | 2014 |       3 |
+|       1034 | Volvo      | 2017 |       4 |
+|       1035 | Chevrolet  | 1998 |       6 |
++------------+------------+------+---------+
+30 rows in set (0.00 sec)
+
+mysql> select * from vehicle_owner;
++------------+----------+
+| Vehicle_id | Owner_id |
++------------+----------+
+|       1012 |       11 |
+|       1019 |       11 |
+|       1029 |       11 |
+|       1035 |       11 |
+|       1013 |       12 |
+|       1020 |       12 |
+|       1024 |       12 |
+|       1030 |       12 |
+|       1014 |       13 |
+|       1021 |       13 |
+|       1025 |       13 |
+|       1031 |       13 |
+|       1015 |       14 |
+|       1022 |       14 |
+|       1026 |       14 |
+|       1032 |       14 |
+|       1016 |       15 |
+|       1023 |       15 |
+|       1027 |       15 |
+|       1033 |       15 |
+|       1017 |       16 |
+|       1028 |       16 |
+|       1034 |       16 |
++------------+----------+
+23 rows in set (0.00 sec)
+
+mysql> select * from availability;
++------------+-----------------+---------------+
+| Vehicle_id | Available_start | Available_end |
++------------+-----------------+---------------+
+|       1012 | 2018-04-20      | 2018-05-20    |
+|       1013 | 2018-04-20      | 2018-05-20    |
+|       1014 | 2018-04-20      | 2018-05-20    |
+|       1015 | 2018-04-20      | 2018-05-20    |
+|       1016 | 2018-04-20      | 2018-05-20    |
+|       1017 | 2018-04-20      | 2018-05-20    |
+|       1019 | 2018-04-20      | 2018-05-20    |
+|       1020 | 2018-04-20      | 2018-05-20    |
+|       1021 | 2018-04-20      | 2018-05-20    |
+|       1022 | 2018-04-20      | 2018-05-20    |
+|       1023 | 2018-04-20      | 2018-05-20    |
+|       1024 | 2018-04-20      | 2018-05-20    |
+|       1025 | 2018-04-20      | 2018-05-20    |
+|       1026 | 2018-04-20      | 2018-05-20    |
+|       1027 | 2018-04-20      | 2018-05-20    |
+|       1028 | 2018-04-20      | 2018-05-20    |
+|       1029 | 2018-04-20      | 2018-05-20    |
+|       1030 | 2018-04-20      | 2018-05-20    |
+|       1031 | 2018-04-20      | 2018-05-20    |
+|       1032 | 2018-04-20      | 2018-05-20    |
+|       1033 | 2018-04-20      | 2018-05-20    |
+|       1034 | 2018-04-20      | 2018-05-20    |
+|       1035 | 2018-04-20      | 2018-05-20    |
++------------+-----------------+---------------+
+23 rows in set (0.00 sec)
+
+mysql> select * from cartype;
++---------+-------------+------------+----------+
+| Type_id | Weekly_rate | Daily_rate | Car_type |
++---------+-------------+------------+----------+
+|       1 |      100.50 |      10.50 | van      |
+|       2 |      200.50 |      20.50 | compact  |
+|       3 |      300.50 |      30.50 | medium   |
+|       4 |      400.50 |      40.50 | large    |
+|       5 |      500.50 |      50.50 | suv      |
+|       6 |      600.50 |      60.50 | truck    |
++---------+-------------+------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer;
++------+--------------+---------------+---------+-------+------------+
+| Idno | Phone        | Customer_type | Initial | Lname | Cname      |
++------+--------------+---------------+---------+-------+------------+
+|   12 | 123-456-7890 | Individual    | S       | Shree | NULL       |
+|   13 | 234-567-8901 | Individual    | R       | Surya | NULL       |
+|   14 | 345-678-9012 | Individual    | P       | Priya | NULL       |
+|   15 | 456-789-0123 | Individual    | U       | Ramya | NULL       |
+|   16 | 567-890-1234 | Individual    | A       | Kavya | NULL       |
+|   17 | 678-901-2345 | Company       | NULL    | NULL  | Google     |
+|   18 | 789-012-3456 | Company       | NULL    | NULL  | Wiseloan   |
+|   19 | 890-123-4567 | Company       | NULL    | NULL  | Redhat     |
+|   20 | 901-234-5678 | Company       | NULL    | NULL  | WWE        |
+|   21 | 101-101-1101 | Company       | NULL    | NULL  | EF Johnson |
++------+--------------+---------------+---------+-------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from rents;
+Empty set (0.00 sec)
+
+mysql> select * from rents;
++-------------+------------+------------+-------------+------------+----------+-----------+--------+-----------+
+| Customer_id | Vehicle_id | Start_date | Return_date | Amount_due | Noofdays | Noofweeks | Active | Scheduled |
++-------------+------------+------------+-------------+------------+----------+-----------+--------+-----------+
+|          12 |       1024 | 2018-04-20 | 2018-04-23  |     100.50 |        0 |         1 |      1 |         0 |
+|          13 |       1022 | 2018-04-20 | 2018-04-24  |     122.00 |        4 |         0 |      1 |         0 |
++-------------+------------+------------+-------------+------------+----------+-----------+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> notee
+
