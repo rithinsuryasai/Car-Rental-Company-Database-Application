@@ -33,8 +33,8 @@ g.	Once the car is returned it will be available for rent for the customers agai
 2)The car will also have an available start and end dates: available_start_date, available_end_date.
  
 ##### c. CAR TYPE:
-1)A car can be rented on weekly basis or daily basis: weekly_rate, daily_rate
-2)Car can be of any of the six types: Compact, Medium, Large, Suv, Truck, Van, Type_Id
+1)A car can be rented on weekly basis or daily basis: weekly_rate, daily_rate  
+2)Car can be of any of the six types: Compact, Medium, Large, Suv, Truck, Van, Type_Id  
  
 ##### d. OWNER:
 1)Each car has a unique idno: Owner_id.  
